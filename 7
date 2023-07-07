@@ -1,0 +1,22 @@
+import pandas as pd
+PCA (7)
+dataset = pd.read_csv(r"/Users/Machine Learning/Dataset/wine.csv")
+x = dataset. iloc[:,0,13]
+y = dataset. iloc[:13]
+from sklearn.model selection import train_test_split
+xtrain, xtest, ytrain, ytest = train_test_split(x, y, test_size=0.2, random_state=0)
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+xtrain = sc.fit_transform(xtrain)
+xtest = sc.transform(xtest)
+from sklearn.decomposition import PCA
+pca = PCA(n_components=2)
+xtrain = pca.fit_transform(xtrain)
+xtest = pca.transform(xtest)
+from sklearn.linear_model import LogisticRegression
+model = LogisticRegression()
+model. fit(xtrain, ytrain)
+ypred = model.predict(xtest)
+from sklearn.metrics import confusion_matrix, classification_report
+print("Confusion matrix: \n", confusion_matrix(ytest, ypred))
+print("Classifiaction report \n", classification_report(ytest, ypred))
