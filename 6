@@ -1,0 +1,23 @@
+import seaborn as sns Text Analysis(6)
+import matplotlib.pyplot as plt
+from sklearn.datasets import fetch_2@newsgroups
+from sklearn.pipeline import make_pipeline
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import confusion_matrix, accuracy_score
+data = fetch_20newsgroups()
+model = make_pipeline(TfidfVectorizer(), MultinomialNB())
+for i in range(0, len(data.target_names), 5):
+cat = data.target_names [i:i+5]
+train = fetch_20newsgroups(subset="'train', categories=cat)
+test = fetch_20newsgroups(subset='test', categories=cat)
+model. fit(train.data, train.target)
+label = model.predict(test.data)
+print(f"\nAC: {i} to {i+5} ", accuracy_score(test.target, label))
+cm = confusion_matrix(test.target, label)
+sns.heatmap(cm.T, square=True, annot = True, fmt = 'd',
+xticklabels=train.target_names, yticklabels=train.target
+plt.title(f"sample no. {i}")
+plt.xlabel("True Label")
+plt.ylabel( ‘Predicted Label’)
+plt.show()
